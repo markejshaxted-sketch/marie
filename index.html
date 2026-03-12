@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Wholesale / Trade Enquiries</title>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <style>
         body {
@@ -110,8 +111,10 @@
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
+            box-sizing: border-box;
         }
 
+        /* ── Submit button ── */
         button.submit {
             width: 100%;
             background: #2f3742;
@@ -120,6 +123,38 @@
             padding: 14px;
             font-size: 15px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        button.submit:disabled {
+            background: #555e6b;
+            cursor: not-allowed;
+        }
+
+        /* ── Spinner ── */
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+
+        button.submit.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .faq {
@@ -137,14 +172,128 @@
             color: #555;
         }
 
+        /* ── Toast ── */
+        #toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(30px);
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 300px;
+            max-width: 420px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            z-index: 9999;
+            border-left: 4px solid #22c55e;
+            overflow: hidden;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        #toast.error {
+            border-left-color: #ef4444;
+        }
+
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #dcfce7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 17px;
+        }
+
+        #toast.error .toast-icon {
+            background: #fee2e2;
+        }
+
+        .toast-body {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 2px;
+        }
+
+        .toast-msg {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .toast-close:hover {
+            color: #555;
+        }
+
+        /* ── Progress bar ── */
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background: #22c55e;
+            transform-origin: left;
+        }
+
+        #toast.error .toast-progress {
+            background: #ef4444;
+        }
+
+        .toast-progress.animating {
+            animation: shrink 4s linear forwards;
+        }
+
+        @keyframes shrink {
+            from {
+                transform: scaleX(1);
+            }
+
+            to {
+                transform: scaleX(0);
+            }
+        }
+
         @media(max-width:800px) {
             .features {
                 flex-direction: column;
                 gap: 20px;
             }
+
+            #toast {
+                min-width: 260px;
+                width: calc(100% - 40px);
+            }
         }
     </style>
-
 </head>
 
 <body>
@@ -158,115 +307,177 @@
             <button onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">
                 Apply for a Trade Account
             </button>
-            <span>Email: adm.mrldistribution@gmail.com</span>
+            <span>Email: megan@mrldistribution.com</span>
         </div>
 
         <div class="features">
-
             <div class="feature">
                 <strong>Fast Dispatch</strong>
                 Typical dispatch in 1–2 working days.
             </div>
-
             <div class="feature">
                 <strong>Customer Service</strong>
                 Support Monday to Friday.
             </div>
-
             <div class="feature">
                 <strong>Secure Processing</strong>
                 Your details are handled securely.
             </div>
-
         </div>
 
         <div class="main">
 
             <div class="box">
-
                 <h3>What you'll get</h3>
-
                 <div class="steps">
-
-                    <div class="step">
-                        <span>Step 1</span> Submit your business details.
-                    </div>
-
-                    <div class="step">
-                        <span>Step 2</span> We review and confirm eligibility.
-                    </div>
-
-                    <div class="step">
-                        <span>Step 3</span> Receive pricing & ordering info.
-                    </div>
-
+                    <div class="step"><span>Step 1</span> Submit your business details.</div>
+                    <div class="step"><span>Step 2</span> We review and confirm eligibility.</div>
+                    <div class="step"><span>Step 3</span> Receive pricing & ordering info.</div>
                 </div>
-
                 <p style="margin-top:30px;">
                     Need help?<br>
-                    Email us at adm.mrldistribution@gmail.com
+                    Email us at megan@mrldistribution.com
                 </p>
-
             </div>
 
             <div class="box">
-
                 <h3 id="form">Trade Partner Application</h3>
-
                 <p>For access to trade pricing and ordering details, please complete the form below.</p>
 
-                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-
-                    <input type="text" name="name" placeholder="Name *" required>
-
-                    <input type="text" name="business" placeholder="Business Name *" required>
-
-                    <input type="email" name="email" placeholder="Email *" required>
-
-                    <input type="tel" name="telephone" placeholder="Telephone *" required>
-
-                    <input type="text" name="website" placeholder="Website / Shop Link">
-
-                    <input type="text" name="vat" placeholder="VAT Number / Company Number">
-
-                    <input type="text" name="instagram" placeholder="Instagram (optional)">
-
-                    <textarea name="message" rows="5"
+                <form id="trade-form">
+                    <input type="text" name="name" id="name" placeholder="Name *" required>
+                    <input type="text" name="business" id="business" placeholder="Business Name *" required>
+                    <input type="email" name="email" id="email" placeholder="Email *" required>
+                    <input type="tel" name="telephone" id="telephone" placeholder="Telephone *" required>
+                    <input type="text" name="website" id="website" placeholder="Website / Shop Link">
+                    <input type="text" name="vat" id="vat" placeholder="VAT Number / Company Number">
+                    <input type="text" name="instagram" id="instagram" placeholder="Instagram (optional)">
+                    <textarea name="message" id="message" rows="5"
                         placeholder="Please include product interest, expected order volume, and delivery country."
                         required></textarea>
 
-                    <button class="submit" type="submit">Send Application</button>
-
+                    <button class="submit" type="submit" id="submit-btn">
+                        <span class="spinner"></span>
+                        <span class="btn-label">Send Application</span>
+                    </button>
                 </form>
-
             </div>
 
         </div>
 
         <div class="faq">
-
             <details>
                 <summary>What are your minimum order requirements?</summary>
                 <p>Minimum orders vary depending on the product range.</p>
             </details>
-
             <details>
                 <summary>How long does approval take?</summary>
                 <p>Most applications are reviewed within 1–2 working days.</p>
             </details>
-
             <details>
                 <summary>Do you offer marketing assets?</summary>
                 <p>Approved trade partners may receive marketing images and product assets.</p>
             </details>
-
         </div>
 
         <div class="footer">
-            Trade enquiries: adm.mrldistribution@gmail.com
+            Trade enquiries: megan@mrldistribution.com
         </div>
 
     </div>
+
+    <!-- Toast -->
+    <div id="toast" role="alert" aria-live="polite">
+        <div class="toast-icon" id="toast-icon">✓</div>
+        <div class="toast-body">
+            <div class="toast-title" id="toast-title">Application sent!</div>
+            <div class="toast-msg" id="toast-msg">We'll be in touch within 1–2 working days.</div>
+        </div>
+        <button class="toast-close" onclick="hideToast()" aria-label="Close">×</button>
+        <div class="toast-progress" id="toast-progress"></div>
+    </div>
+
+    <script>
+        // ─────────────────────────────────────────────
+        const EMAILJS_SERVICE_ID = 'service_igca9w5';
+        const EMAILJS_PUBLIC_KEY = 'x8uYwxjwZpKPmQLxy';
+        const EMAILJS_TEMPLATE_ID = 'template_fx9wva8';
+        // ─────────────────────────────────────────────
+
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+
+        let toastTimer = null;
+
+        function showToast(type, title, msg) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            const titleEl = document.getElementById('toast-title');
+            const msgEl = document.getElementById('toast-msg');
+            const progress = document.getElementById('toast-progress');
+
+            titleEl.textContent = title;
+            msgEl.textContent = msg;
+            icon.textContent = type === 'success' ? '✓' : '✕';
+
+            toast.classList.remove('show', 'error');
+            if (type === 'error') toast.classList.add('error');
+
+            // Reset & restart progress bar animation
+            progress.classList.remove('animating');
+            void progress.offsetWidth; // force reflow
+            progress.classList.add('animating');
+
+            requestAnimationFrame(() => toast.classList.add('show'));
+
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(hideToast, 4000);
+        }
+
+        function hideToast() {
+            document.getElementById('toast').classList.remove('show');
+            clearTimeout(toastTimer);
+        }
+
+        document.getElementById('trade-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('submit-btn');
+            const label = btn.querySelector('.btn-label');
+
+            btn.disabled = true;
+            btn.classList.add('loading');
+            label.textContent = 'Sending…';
+
+            const templateParams = {
+                from_name: document.getElementById('name').value,
+                business: document.getElementById('business').value,
+                reply_to: document.getElementById('email').value,
+                telephone: document.getElementById('telephone').value,
+                website: document.getElementById('website').value || 'N/A',
+                vat: document.getElementById('vat').value || 'N/A',
+                instagram: document.getElementById('instagram').value || 'N/A',
+                message: document.getElementById('message').value,
+                to_email_1: 'order.processing@crmtrading.co.uk',
+                to_email_2: 'claire.shaxted@crmtrading.co.uk',
+                to_email_3: 'layla.collins@crmtrading.co.uk',
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function () {
+                    showToast('success', 'Application sent!', 'We\'ll be in touch within 1–2 working days.');
+                    document.getElementById('trade-form').reset();
+                })
+                .catch(function (error) {
+                    console.error('EmailJS error:', error);
+                    showToast('error', 'Something went wrong', 'Please email us at megan@mrldistribution.com');
+                })
+                .finally(function () {
+                    btn.disabled = false;
+                    btn.classList.remove('loading');
+                    label.textContent = 'Send Application';
+                });
+        });
+    </script>
 
 </body>
 
