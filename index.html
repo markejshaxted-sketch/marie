@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wholesale / Trade Enquiries</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+            background: white;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .cta {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .cta button {
+            background: #2f3742;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .cta span {
+            border: 1px solid #ccc;
+            padding: 14px 20px;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 25px 0;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .feature {
+            flex: 1;
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .main {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            border: 1px solid #eee;
+            padding: 25px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .steps {
+            margin-top: 20px;
+        }
+
+        .step {
+            margin-bottom: 15px;
+        }
+
+        .step span {
+            background: #2f3742;
+            color: white;
+            padding: 4px 10px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+        }
+
+        button.submit {
+            width: 100%;
+            background: #2f3742;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .faq {
+            margin-top: 40px;
+        }
+
+        details {
+            border-top: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #555;
+        }
+
+        @media(max-width:800px) {
+            .features {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Wholesale / Trade Enquiries</h1>
+        <p class="subtitle">Apply for trade pricing, stock availability, and marketing support.</p>
+
+        <div class="cta">
+            <button onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">
+                Apply for a Trade Account
+            </button>
+            <span>Email: adm.mrldistribution@gmail.com</span>
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+                <strong>Fast Dispatch</strong>
+                Typical dispatch in 1–2 working days.
+            </div>
+
+            <div class="feature">
+                <strong>Customer Service</strong>
+                Support Monday to Friday.
+            </div>
+
+            <div class="feature">
+                <strong>Secure Processing</strong>
+                Your details are handled securely.
+            </div>
+
+        </div>
+
+        <div class="main">
+
+            <div class="box">
+
+                <h3>What you'll get</h3>
+
+                <div class="steps">
+
+                    <div class="step">
+                        <span>Step 1</span> Submit your business details.
+                    </div>
+
+                    <div class="step">
+                        <span>Step 2</span> We review and confirm eligibility.
+                    </div>
+
+                    <div class="step">
+                        <span>Step 3</span> Receive pricing & ordering info.
+                    </div>
+
+                </div>
+
+                <p style="margin-top:30px;">
+                    Need help?<br>
+                    Email us at adm.mrldistribution@gmail.com
+                </p>
+
+            </div>
+
+            <div class="box">
+
+                <h3 id="form">Trade Partner Application</h3>
+
+                <p>For access to trade pricing and ordering details, please complete the form below.</p>
+
+                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+                    <input type="text" name="name" placeholder="Name *" required>
+
+                    <input type="text" name="business" placeholder="Business Name *" required>
+
+                    <input type="email" name="email" placeholder="Email *" required>
+
+                    <input type="tel" name="telephone" placeholder="Telephone *" required>
+
+                    <input type="text" name="website" placeholder="Website / Shop Link">
+
+                    <input type="text" name="vat" placeholder="VAT Number / Company Number">
+
+                    <input type="text" name="instagram" placeholder="Instagram (optional)">
+
+                    <textarea name="message" rows="5"
+                        placeholder="Please include product interest, expected order volume, and delivery country."
+                        required></textarea>
+
+                    <button class="submit" type="submit">Send Application</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="faq">
+
+            <details>
+                <summary>What are your minimum order requirements?</summary>
+                <p>Minimum orders vary depending on the product range.</p>
+            </details>
+
+            <details>
+                <summary>How long does approval take?</summary>
+                <p>Most applications are reviewed within 1–2 working days.</p>
+            </details>
+
+            <details>
+                <summary>Do you offer marketing assets?</summary>
+                <p>Approved trade partners may receive marketing images and product assets.</p>
+            </details>
+
+        </div>
+
+        <div class="footer">
+            Trade enquiries: adm.mrldistribution@gmail.com
+        </div>
+
+    </div>
+
+</body>
+
+</html>
